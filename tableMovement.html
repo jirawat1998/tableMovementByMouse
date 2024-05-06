@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resizable Table</title>
+<style>
+    /* กำหนดสไตล์ CSS เพื่อสร้างตารางที่เรียงกันแนวนอน */
+    .parent {
+        width: 300px; /* กำหนดความกว้างของพาเรนท์ div */
+        overflow-x: scroll; /* อนุญาตให้มีการเลื่อนแนวนอน */
+    }
+
+    .table {
+        width: 600px; /* กำหนดความกว้างของตาราง */
+        border-collapse: collapse; /* รวมเซลล์เป็นขอบเดียว */
+    }
+
+    .table th, .table td {
+        padding: 8px; /* กำหนดการเว้นระยะห่างภายในเซลล์ */
+        border: 1px solid #ddd; /* กำหนดเส้นขอบ */
+    }
+</style>
+</head>
+<body>
+
+<div class="parent">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Header 1</th>
+                <th>Header 2</th>
+                <th>Header 3</th>
+                <th>Header 4</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Data 1</td>
+                <td>Data 2</td>
+                <td>Data 3</td>
+                <td>Data 4</td>
+            </tr>
+            <tr>
+                <td>Data 5</td>
+                <td>Data 6</td>
+                <td>Data 7</td>
+                <td>Data 8</td>
+            </tr>
+            <tr>
+                <td>Data 9</td>
+                <td>Data 10</td>
+                <td>Data 11</td>
+                <td>Data 12</td>
+            </tr>
+            <!-- เพิ่มแถวตารางตามต้องการ -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    let mouseDown = false;
+    let startX, scrollLeft;
+    const slider = document.querySelector('.parent');
+
+    const startDragging = (e) => {
+        mouseDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    }
+
+    const stopDragging = () => {
+        mouseDown = false;
+    }
+
+    const move = (e) => {
+        e.preventDefault();
+        if (!mouseDown) { return; }
+        const x = e.pageX - slider.offsetLeft;
+        const scroll = x - startX;
+        slider.scrollLeft = scrollLeft - scroll;
+    }
+
+    // เพิ่มการเชื่อมต่อกับอีเวนต์
+    slider.addEventListener('mousemove', move, false);
+    slider.addEventListener('mousedown', startDragging, false);
+    slider.addEventListener('mouseup', stopDragging, false);
+    slider.addEventListener('mouseleave', stopDragging, false);
+</script>
+
+</body>
+</html>
